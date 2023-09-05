@@ -1,7 +1,6 @@
 clear all; clc;
 global iters;
 global batch_size;
-% iters = 128;
 batch_size = 500;
 reg_param = 1e-6;
 step_size = 1e-6;
