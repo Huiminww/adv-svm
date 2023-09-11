@@ -19,7 +19,7 @@ step_size0 = 1;
 step_size1 = step_size;
 
 n = 2^24
-blocksz = 1500
+blocksz = 1024
 
 scram=0;
 %generate primes
