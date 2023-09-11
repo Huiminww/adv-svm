@@ -1,5 +1,3 @@
-%hyper-paramater: train_C, C_epsilon, step_size, (reg_param); C,KSCALE
-
 function[train_error_mat, test_error_mat, time]...
     =adversarial_training(traindata, trainlabel, testdata, testlabel, trainY, testY, ntr, nte, k, reg_param, step_size, sequence,strategy,C_epsilon)
 
@@ -50,7 +48,6 @@ KSCALE = 3;
 [d,~] = size(traindata);
 loss = zeros(batch_size,d);
 
-
 for j = 1:iters
     fprintf('--iters no %d\n', j);
     
@@ -79,9 +76,6 @@ for j = 1:iters
         train_batch_preds = train_batch_preds + ...
             W(:,inner_w_idx) * random_fourier_qmc_ns(batch_data,s,blocksz,sequence,[],scram,(inner_j+1)*43,(inner_j+1)*prime(inner_j+1));
     end
-    %loss
-    %l'=f(x)-y
-%     residue = softmax_fn(train_batch_preds) - trainY(:, batch_idx);
     residue = -C*trainY(:,batch_idx);
     
     %converge
@@ -103,7 +97,6 @@ for j = 1:iters
         inner_w_idx = inner_j*2*blocksz+1:(inner_j+1)*2*blocksz;
         W(:, inner_w_idx) = (1 - step_size * (1+C_epsilon/f(inner_j+1))) * W(:, inner_w_idx);
     end
-    %f:train_preds_batch;||f||_2 = norm(f,2);
     train_preds_batch = train_batch_preds + updateW * train_batch_X;
     
     t4=clock;
@@ -133,16 +126,9 @@ for j = 1:iters
     
     fprintf('---running time: %f\n',t)
     
-    fprintf('---C_epsilon: %f\n', C_epsilon)
-    
     fprintf('---step size: %f\n', step_size)
     
     fprintf('---reg_param: %f\n', reg_param)
-    
-    fprintf('---Skip&Leap: %d %d\n', (f_idx+1)*43,(f_idx+1)*prime(j))
-    
-    train_error_mat(j) = train_error;
-    fprintf('---train error: %f\n', train_error)
     
     test_error_mat(j) = test_error;
 
